@@ -2,6 +2,10 @@ body {
     background-color: #9266ff;
   }
   
+a {
+  margin-right: 10px;
+}
+
   .App {
     background-color:#3f3160;
     min-height: 500px;
