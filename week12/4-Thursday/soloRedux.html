@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js" ></script>
+
+    <script>
+
+        // action creator: function that returns action object
+        let addPerson = (id, name, age) => {
+
+            //action  has type property, and an optional payload of data
+            return {
+                type: "ADD",
+                personData: {
+                    id: id,
+                    name: name,
+                    age: age
+                }
+            }
+        }
+
+        let removePerson = (id) =>{
+
+            return {
+                type: "REMOVE",
+                personId: id
+            }
+        }
+
+        let increment = (num) => {
+
+            return {
+                type: "INCREMENT",
+                number: num
+            }
+        }
+
+        let decrement = (num) => {
+
+            return {
+                type: "DECREMENT",
+                number: num
+            }
+        }
+
+
+        let initialState = {
+            persons: [],
+            count: 0
+        }
+
+        let reducer = (state, action) => {
+
+            // instantiate global state if not defined
+            if (state == undefined){
+                state = initialState
+            }
+
+            // check action type, run blocked code if matched
+            if (action.type === "ADD"){
+
+
+                // pure function reducer                
+                return {
+                    ...state,
+                    persons: state.persons.concat(action.personData)
+                }
+
+            }
+
+            else if (action.type === "REMOVE") {
+
+
+                return {
+                    ...state,
+                    count: state.count + 1,
+                    persons: state.persons.filter(pObj => pObj.id != action.personId)
+
+                }
+            }
+
+            else if (action.type === "INCREMENT") {
+
+
+                return {
+                    ...state,
+                    count: state.count + action.number
+                }
+            }
+
+            else if (action.type === "DECREMENT") {
+
+
+                return {
+                    ...state,
+                    count: state.count - action.number
+
+                }
+            }
+
+            // if not found, return current state
+            else {
+                return state
+            }
+
+
+
+        }
+
+        let store = Redux.createStore(reducer) //pass into this store a reducer
+
+       
+        let showState = () => {
+
+            console.log(store.getState())
+        }
+        
+        store.subscribe(showState)
+
+
+        store.dispatch(addPerson(1, "Jeremy", 31))
+        store.dispatch(addPerson(2, 'Cainan', 25))
+        store.dispatch(addPerson(3, 'Woody', 23))
+        store.dispatch(addPerson(4, 'Micah', 21))
+        store.dispatch(addPerson(5, 'Dan', 35))
+        store.dispatch(addPerson(6, 'Chris', 32))
+        store.dispatch(addPerson(7, 'RJ', 28))
+        store.dispatch(addPerson(8, 'Michael', 42))
+
+        store.dispatch(removePerson(7))
+        
+        store.dispatch(increment(3))
+        store.dispatch(decrement(1))
+        store.dispatch(increment(7))
+        store.dispatch(decrement(4))
+        store.dispatch(increment(1))
+        store.dispatch(decrement(2))
+
+
+
+    </script>
+    
+</body>
+</html>
