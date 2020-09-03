@@ -19,7 +19,7 @@ export default function bookApp(
         ...state,
         books: [...state.books.slice(0, idx), ...state.books.slice(idx + 1)]
       };
-
+""
     case "ADD_AUTHOR":
       return {
         ...state,
