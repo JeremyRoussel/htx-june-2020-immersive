@@ -3,6 +3,37 @@ const passport = require('passport');
 const db = require('../models');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const config = require('../secrets');
+
+
+let jwtOptions = {
+    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    secretOrKey: config.secret
+
+}
+
+let jwtLogin = new JwtStrategy(jwtOptions, (payload, done)=>{
+
+    //unencoded payload: payload.sub
+    db.user.findByPk(payload.sub)
+    .then(foundUser => {
+
+        if(foundUser){
+            //success
+            done(null, foundUser)
+        }
+        else{
+            done(null, false)
+        }
+
+    })
+    .catch(err =>{
+        return done(err, false)
+    })
+
+})
 
 
 let options = { usernameField: 'email' };
@@ -52,3 +83,4 @@ let localLogin = new LocalStrategy(options, (email, password, done) => {
 
 
 passport.use(localLogin);
+passport.use(jwtLogin);

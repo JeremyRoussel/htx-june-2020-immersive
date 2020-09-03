@@ -13,7 +13,8 @@ router.use(bodyParser.urlencoded({extended: false}));
 let passport = require('passport');
 let passportService = require('../config/passAuth');
 
-let requireSignin = passport.authenticate('local', {session: false})
+let requireSignin = passport.authenticate('local', {session: false});
+let requireAuth = passport.authenticate('jwt', {session: false});
 
 let token = (user) =>{
 
@@ -22,7 +23,7 @@ let token = (user) =>{
     return jwt.encode({sub: user.id,  iat:timestamp}, config.secret)
 }
 
-router.get('/',  (req, res) => {
+router.get('/', requireAuth, (req, res) => {
   
     res.send('hello world')
 })
