@@ -55,7 +55,7 @@ router.post('/signup', (req, res) => {
                     .then(user => {
                           
                         //on success, return json web token
-                        return res.json({token: token({id: user.dataValues.id})})
+                        return res.json({token: token(user)})
 
                     })
                     .catch(err => {

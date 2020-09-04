@@ -7,7 +7,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 const config = require('../config')
 
 let jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromHeader('Authorization'),
+    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
     secretOrKey: config.secret
 }
 
